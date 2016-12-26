@@ -1,0 +1,76 @@
+# http://vim.wikia.com/wiki/Use_vi_shortcuts_in_terminal
+# Use Vi, not Emacs, style editing
+set editing-mode vi
+
+# Show all completions as soon as I press tab, even if there's more than one
+set show-all-if-ambiguous on
+
+# Ignore case
+set completion-ignore-case on
+
+# on menu-complete, first display the common prefix, then cycle through the 
+# options when hitting TAB
+#menu-complete-display-prefix on
+
+# Keymaps for when we're in command mode (e.g., after hitting ESC)
+set keymap vi-command 
+
+# Insert the arguments from the last command
+# "p": "i !!*\r"
+
+
+# Pressing tab will list all completions & select the first one. Pressing it 
+# # again will cycle through available completions.
+TAB: menu-complete
+
+# Shift-TAB cycles completions backward
+#"\e[Z": menu-complete-backward
+
+# Needed because binding 'p' in command mode above wipes its insert mode
+# # function, too. This fixes that, and will insert 'p' when you type 'p'.
+#"p": self-insert
+
+#set keymap vi-insert, copy from https://github.com/tpope/tpope/blob/master/.inputrc
+"\C-a": beginning-of-line
+"\C-b": backward-char
+"\C-e": end-of-line
+"\C-f": forward-char
+"\C-k": kill-line
+"\C-p": previous-history
+"\C-n": next-history
+"\C-w": backward-kill-word
+
+# Cycle thru completions.
+#"\e/": menu-complete
+#
+#
+#set keymap vi-insert
+#Control-a: beginning-of-line
+#Control-b: backward-char
+##Control-d: delete-char
+#Control-e: end-of-line
+#Control-f: forward-char
+#Control-k: kill-line
+#Control-n: next-history
+#Control-p: previous-history
+#set keymap emacs-ctlx
+#v: vi-editing-mode
+#Control-v: "\C-xv\e"
+#Escape: "\C-xv\e"
+#set keymap emacs
+#$if Bash
+#  Control-w: unix-filename-rubout
+#  $endif
+
+
+# Vim style history search
+#"\e[A": history-search-backward
+#"\e[B": history-search-forward
+#
+#"\e[C": forward-char
+#"\e[D": backward-char
+#
+#
+## Two escapes clear command line.
+#"\e\e": "\C-a\C-k"
+#

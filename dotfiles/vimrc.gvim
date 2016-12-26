@@ -1,0 +1,8 @@
+" for gvim, concentrate with the VIM
+" disable the gvim menu
+set guioptions-=m
+set guioptions-=T
+set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+set guioptions-=r
+set guioptions-=L
+

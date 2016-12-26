@@ -1,0 +1,116 @@
+" =============relative number line setting ==============
+set rnu                                                                                                                                                        
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set invnu nornu
+    else
+        set rnu
+    endif
+endfunc
+nnoremap <C-n><C-n> :call NumberToggle()<CR>
+nnoremap <leader>r :set nornu<CR>
+
+" mapping showing line number
+" :nmap <C-n><C-n> :set invnumber<CR>
+" =============relative number line setting end============
+
+"auto fix mis-spell by using \sp
+set spell
+" nnoremap <leader>sp :normal! mm[s1z=`m<cr>
+function! FixLastSpellingError()
+    normal! mm[s1z=`m
+endfunction                                                                                                                                                    
+nnoremap <leader>sp :call FixLastSpellingError()<cr>
+
+" ================Adding vim session manage ==================
+" creates a session
+function! MakeSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  if (filewritable(b:sessiondir) != 2)
+    exe 'silent !mkdir -p ' b:sessiondir
+    redraw!
+  endif
+  let b:sessionfile = b:sessiondir . '/session.vim'
+  exe "mksession! " . b:sessionfile
+endfunction
+
+" Updates a session, BUT ONLY IF IT ALREADY EXISTS
+function! UpdateSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  let b:sessionfile = b:sessiondir . "/session.vim"
+  if (filereadable(b:sessionfile))
+    exe "mksession! " . b:sessionfile
+    echo "updating session"
+  endif
+endfunction
+
+" Loads a session if it exists
+function! LoadSession()
+  if argc() == 0
+    let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+    let b:sessionfile = b:sessiondir . "/session.vim"
+    if (filereadable(b:sessionfile))
+      exe 'source ' b:sessionfile
+    else
+      echo "No session loaded."
+    endif
+  else
+    let b:sessionfile = ""
+    let b:sessiondir = ""
+  endif
+endfunction
+
+au VimEnter * nested :call LoadSession()
+au VimLeave * :call UpdateSession()
+map <leader>m :call MakeSession()<CR>
+" ================vim session manage end==================
+
+" For python, shell and other file header
+autocmd BufNewFile *.sh,*.py,*.ksh,*.html exec ":call SetTitle()"
+func! SetTitle()
+    if &filetype == 'sh'
+        call setline(1, "\#!/usr/bin/env bash")
+        call append(line("."), "\#########################################################################")
+        call append(line(".")+1, "\# File Name:     ".expand("%"))
+        call append(line(".")+2, "\# Author:        Fung Kong")
+        call append(line(".")+3, "\# Mail:          kyun.kong@gmail.com")
+        call append(line(".")+4, "\# Created Time:  ".strftime('%Y-%m-%d %T', localtime()))
+        call append(line(".")+5, "\# Description:   ")
+        call append(line(".")+6, "\#                ")
+        call append(line(".")+7, "\#########################################################################")
+        call append(line(".")+8, "")
+    endif
+    if &filetype == 'ksh'
+        call setline(1, "\#!/usr/bin/env ksh")
+        call append(line("."), "\#########################################################################")
+        call append(line(".")+1, "\# File Name:     ".expand("%"))
+        call append(line(".")+2, "\# Author:        Fung Kong")
+        call append(line(".")+3, "\# Mail:          kyun.kong@gmail.com")
+        call append(line(".")+4, "\# Created Time:  ".strftime('%Y-%m-%d %T', localtime()))
+        call append(line(".")+5, "\# Description:   ")
+        call append(line(".")+6, "\#                ")
+        call append(line(".")+7, "\#########################################################################")
+        call append(line(".")+8, "")
+    endif
+    if &filetype == 'python'
+        call setline(1, "\#!/usr/bin/env python")
+        call append(line("."), "\#-*- encoding: utf-8 -*- ")
+        call append(line(".")+1, "\"\"\"")
+        call append(line(".")+2, "\# Author:        Fung Kong")
+        call append(line(".")+3, "\# Email:         kyun.kong@gmail.com")
+        call append(line(".")+4, "\# Created Time:  ".strftime('%Y-%m-%d %T', localtime()))
+        call append(line(".")+5, "\# File Name:     ".expand("%"))
+        call append(line(".")+6, "\# Description:   ")
+        call append(line(".")+7, "\# ")
+        call append(line(".")+8, "\"\"\"")
+        call append(line(".")+9,"")
+    endif
+    " Replace by emmet-vim: insert mode, type "html:5" and type <c-y>, there's
+    " a comma here
+    normal G
+endfunc
+" =========================================================================
+" End of File header
+" =========================================================================
+
+

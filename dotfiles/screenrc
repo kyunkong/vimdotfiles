@@ -1,0 +1,32 @@
+# Set default encoding using utf8  
+defutf8 on  
+
+# Compatible for shell
+shell -$SHELL  
+
+#set the startup message  
+startup_message off
+
+term xterm-256color
+defscrollback 10000 
+
+vbell off
+caption always "%{wk} [ ${USER}@%H ] %-w%{+b bw}[ %n:%t ]%{-}%+w"
+#hardstatus alwayslastline '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
+
+bind c screen 1
+bind ^c screen 1
+bind 0 select 10
+screen 1
+
+#Logging
+logfile $HOME/screenlog_%Y%m%d%H_%n.log
+deflog on
+
+# Autodetach session on hangup instead of terminating screen completely
+autodetach on 
+ 
+# Remove some stupid / dangerous key bindings
+bind x
+bind ^k
+bind ^\

@@ -1,0 +1,110 @@
+" plugins management
+" execute pathogen#infect()
+" =====================================================
+" for the mardown plugin
+" =====================================================
+let g:vim_markdown_frontmatter=1
+" disable folding in markdown
+let g:vim_markdown_folding_disabled = 1
+autocmd BufNewFile,BufRead *.md set nofoldenable
+autocmd BufNewFile,BufRead *.markdown set nofoldenable
+" markdown languages support
+let g:markdown_fenced_languages = ['coffee', 'css', 'erb=eruby', 'javascript', 'js=javascript', 'json=javascript', 'python', 'ruby', 'sass', 'xml', 'bash',    'sql', 'perl']
+" To fold in a style like python-mode, add the following to your
+"" let g:vim_markdown_folding_style_pythonic = 1
+" =======================================================
+" end of markdown settting
+" =======================================================
+
+" =======================================================
+" airline plugin setting
+" =======================================================
+let g:airline_theme="luna"
+" Airline TAB setting
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = '>>'
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" =======================================================
+" end of airline setting
+" =======================================================
+
+" =======================================================
+" Nerdtree plugin setting
+" =======================================================
+"" autocmd vimenter * NERDTree
+"" autocmd StdinReadPre * let s:std_in=1
+"" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <leader>' :NERDTreeToggle<CR>
+"" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" move nerdtree to the right
+let g:NERDTreeWinPos = "right"
+" move to the first buffer
+"" autocmd VimEnter * wincmd p
+" =======================================================
+" end of Nerdtree plugin setting
+" =======================================================
+
+" =======================================================
+" tabular plugin setting
+" =======================================================
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+    let p = '^\s*|\s.*\s|\s*$'
+    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+    endif
+endfunction
+" =======================================================
+" end of tabular setting
+" =======================================================
+
+" =======================================================
+" nerdcommentary  plugin, <leader>c<Space> auto comment
+" =======================================================
+" Insert a space befor the comment
+let g:NERDSpaceDelims=1
+" =======================================================
+" end of nerdcommentary setting
+" =======================================================
+
+" =======================================================
+" for syntastic plugin setting
+" =======================================================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" =======================================================
+" end of syntastic plugin
+" =======================================================
+
+" =======================================================
+" emmet plugin for html
+" =======================================================
+" Enable just for html/css
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+" To remap the default <C-Y> leader:
+" let g:user_emmet_leader_key='<C-Z>'
+" =======================================================
+" end of emmet plugin for html
+" =======================================================
+
+" =======================================================
+" css3-vim plugin setting
+" =======================================================
+augroup VimCSS3Syntax
+    autocmd!
+    autocmd FileType css setlocal iskeyword+=-
+augroup END
+" =======================================================
+" css3-vim plugin setting end
+" =======================================================
