@@ -58,7 +58,7 @@ INSTALL(){
         mv $gitdir ${gitdir}_old_$timeStamp |tee -a $logfile
         echo -e "+++Backing up $gitdir folder done...\n" |tee -a $logfile
     fi
-    for file in ~/.bashrc ~/.vimrc ~/.inputrc ~/.dircolors ~/.screenrc
+    for file in ~/.bashrc ~/.vimrc ~/.inputrc ~/.screenrc
     do
         echo -e "+++Backing up $file...\nmv $file ${file}.${timeStamp}.bak"|tee -a $logfile
         mv $file ${file}.${timeStamp}.bak >/dev/null 2>&1
@@ -67,29 +67,33 @@ INSTALL(){
 
     # clone the repository from github
     echo -e 'Cloning the github repository:
-    git clone https://github.com/Fung920/vimdotfile.git $gitdir \n' |tee -a $logfile
-    git clone https://github.com/Fung920/vimdotfile.git $gitdir |tee -a $logfile
+    git clone https://github.com/kyunkong/vimdotfiles.git $gitdir \n' |tee -a $logfile
+    git clone https://github.com/kyunkong/vimdotfiles.git $gitdir |tee -a $logfile
     echo -e '
     \n#Creating the symbolic links for the rc files\n
     ln -s $gitdir/vimrc ~/.vimrc
     ln -s $gitdir/bashrc ~/.bashrc
     ln -s $gitdir/inputrc ~/.inputrc
-    ln -s $gitdir/dircolors ~/.dircolors
     ln -s $gitdir/screenrc ~/.screenrc
     ' |tee -a $logfile
     ln -s $gitdir/vimrc ~/.vimrc|tee -a $logfile
     ln -s $gitdir/bashrc ~/.bashrc|tee -a $logfile
     ln -s $gitdir/inputrc ~/.inputrc|tee -a $logfile
-    ln -s $gitdir/dircolors ~/.dircolors|tee -a $logfile
     ln -s $gitdir/screenrc ~/.screenrc|tee -a $logfile
 
     # Solarized color theme setting
+    echo -e '+++Setting up the gnome-terminal:\n
+    git clone https://github.com/Anthony25/gnome-terminal-colors-solarized.git $gitdir/gnome-terminal-colors-solarized\n
+    '|tee -a $logfile
+    git clone https://github.com/Anthony25/gnome-terminal-colors-solarized.git $gitdir/gnome-terminal-colors-solarized
     echo -e "+++Please run the following commands for gnome-terminal Solarized theme\n"|tee -a $logfile
     echo -e '\e[1;31m
-    eval `dircolors ~/.dircolors`
     sh $gitdir/gnome-terminal-colors-solarized/set_dark.sh
+    eval `dircolors $HOME/.dir_colors/dircolors`
     \e[0m
     ' |tee -a $logfile
+    echo -e '+++Removing the old gnome submodule...\n
+    +++rm -rf $gitdir/gnome-terminal-colors-solarized'|tee -a $logfile
 
     echo -e "+++Installation done...\n" |tee -a $logfile
 }
