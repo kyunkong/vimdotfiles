@@ -1,4 +1,4 @@
-" mapping leader to comma
+" mapping leader to comma                 
 let mapleader = ","
 
 " delete from current cursor to EOL in insert mode
@@ -11,7 +11,7 @@ inoremap <C-j> <esc>gUiwea
 nnoremap / /\v
 
 " delete the space at the end of line in normal mode
-nmap <leader><space> g_ld
+nmap <leader><space> g_lD
 
 " bind Ctrl+<movement> keys to move around the windows
 map <c-j> <c-w>j
