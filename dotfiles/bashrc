@@ -31,14 +31,16 @@ export TERM=xterm-256color
 
 
 #For ubuntu solarized color, put following line into .profile in ubuntu
-#if [ -x /usr/bin/dircolors ]; then
-#    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-#fi
-#
-#alias l.='ls -d .* --color'
-#alias ll='ls -l --color'
-#alias ls='ls --color' 
+platform=`awk 'NR==1{print $1}' /etc/issue`
+if [[ $platform == 'Ubuntu' ]]; then
+    if [ -x /usr/bin/dircolors ]; then
+        test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    fi
 
+    alias l.='ls -d .* --color'
+    alias ll='ls -l --color'
+    alias ls='ls --color' 
+fi
 
 #For tmux
 export LD_LIBRARY_PATH=/usr/local/lib
