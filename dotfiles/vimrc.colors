@@ -26,7 +26,7 @@ let g:solarized_termcolors=16
 " gui theme & terminal themem
 if has('gui_running')
     set background=dark
-    colorscheme solarized
+    silent! colorscheme solarized
 else
     "autocmd BufEnter * color  wombat256mod
     "autocmd BufEnter *.md color peaksea
