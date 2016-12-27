@@ -49,6 +49,13 @@ gitstatus(){
     return $gitstat
 }
 
+rcstatus(){
+    rc=$?
+    if [[ $rc -ne 0 ]]; then
+        echo -e '+++Something wrong with the git command, please have a check.'
+        exit 1
+    fi
+}
 # define the main function for the newly installation
 INSTALL(){
     # backup is always essential
@@ -65,10 +72,22 @@ INSTALL(){
         echo -e "+++Backup the $file end...\n"|tee -a $logfile
     done
 
+
+    echo -e 'Cloning vimdotfiles the github repository:
+    git clone https://github.com/kyunkong/vimdotfiles.git $gitdir\n' |tee -a $logfile
+    git clone https://github.com/kyunkong/vimdotfiles.git $gitdir|tee -a $logfile
+    rcstatus
+
     # clone the repository from github
-    echo -e 'Cloning the github repository:
-    git clone https://github.com/kyunkong/vimdotfiles.git $gitdir \n' |tee -a $logfile
-    git clone https://github.com/kyunkong/vimdotfiles.git $gitdir |tee -a $logfile
+    echo -e 'We need to install the vundle first:'
+    git clone https://github.com/VundleVim/Vundle.vim.git $gitdir/bundle/Vundle.vim
+    rcstatus
+
+    echo -e 'configuring the solarized theme...\n'
+    git clone git://github.com/altercation/vim-colors-solarized.git  && cp vim-colors-solarized/colors/solarized.vim $gitdir/bundle/vim-colors-solarized
+    rcstatus
+
+
     echo -e '
     \n#Creating the symbolic links for the rc files\n
     ln -s $gitdir/vimrc ~/.vimrc
@@ -80,12 +99,16 @@ INSTALL(){
     ln -s $gitdir/bashrc ~/.bashrc|tee -a $logfile
     ln -s $gitdir/inputrc ~/.inputrc|tee -a $logfile
     ln -s $gitdir/screenrc ~/.screenrc|tee -a $logfile
+    echo -e "Install the vundle plugin...\n"
+    vim +PluginInstall +qall
 
     # Solarized color theme setting
     echo -e '+++Setting up the gnome-terminal:\n
     git clone https://github.com/Anthony25/gnome-terminal-colors-solarized.git $gitdir/gnome-terminal-colors-solarized\n
     '|tee -a $logfile
     git clone https://github.com/Anthony25/gnome-terminal-colors-solarized.git $gitdir/gnome-terminal-colors-solarized
+    rcstatus
+
     echo -e "+++Please run the following commands for gnome-terminal Solarized theme\n"|tee -a $logfile
     echo -e '\e[1;31m
     sh $gitdir/gnome-terminal-colors-solarized/set_dark.sh
@@ -145,7 +168,7 @@ PUSH(){
         fi
         git add . --all
         git commit -m "$msg"
-        git push origin $branch
+        git push -u origin $branch
     fi
 }
 
