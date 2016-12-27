@@ -86,3 +86,4 @@ alias tmux='tmux -2'
 #    fi
 #}
 #
+eval `dircolors $HOME/.dir_colors/dircolors`
