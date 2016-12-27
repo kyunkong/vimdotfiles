@@ -51,7 +51,7 @@ gitstatus(){
 rcstatus(){
     rc=$?
     if [ $rc -ne 0 ]; then
-        echo -e "Something wrong with the git command, please have a check...\n"
+        echo -e "Something wrong with the previous command, please have a check...\n"
         exit -1
     fi
 }
@@ -100,6 +100,7 @@ INSTALL(){
     vim +PluginInstall +qall
     sleep 3
     vim +PluginInstall +qall
+    sleep 3
 
     # Solarized color theme setting
     echo -e '+++Setting up the gnome-terminal:\n
