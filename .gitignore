@@ -5,5 +5,5 @@ Session.vim
 sessions/
 .netrwhist
 *~
-bundle/
+bundle/*
 gnome-terminal-colors-solarized/
